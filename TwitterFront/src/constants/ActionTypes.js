@@ -1,0 +1,8 @@
+export const ADD_TWEET = 'ADD_TWEET'
+export const DELETE_TWEET = 'DELETE_TWEET'
+export const FAVORITE_TWEET = 'FAVORITE_TWEET'
+
+export const REQUEST_LOGIN = 'REQUEST_LOGIN'
+export const COMPLETE_LOGIN = 'COMPLETE_LOGIN'
+export const FAILED_LOGIN = 'FAILED_LOGIN'
+export const AFTER_LOGIN = 'AFTER_LOGIN'
