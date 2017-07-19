@@ -32,8 +32,11 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-websocket')
 	compile("org.springframework.boot:spring-boot-starter-security")
+	compile('org.springframework.data:spring-data-redis:1.8.4.RELEASE')
+	compile('biz.paluch.redis:lettuce:4.3.3.Final')
 	compile("org.springframework.boot:spring-boot-starter-thymeleaf")
 	compile group: 'org.hibernate', name: 'hibernate-java8', version: '5.1.0.Final'
+	compile group: 'org.springframework.session', name: 'spring-session-data-redis'
 	compile('net.sourceforge.nekohtml:nekohtml:1.9.21')
 	runtime('mysql:mysql-connector-java')
 	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')

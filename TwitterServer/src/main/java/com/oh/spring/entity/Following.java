@@ -21,29 +21,29 @@ public class Following {
     private int id;
     @ManyToOne
     @JoinColumn(name = "FOLLOWING_ID")
-    private User followedID;
+    private User following;
     @ManyToOne
     @JoinColumn(name = "FOLLOWER_ID")
-    private User followerID;
+    private User follower;
 
     public Following() {
 
     }
 
-    public User getFollowedID() {
-        return followedID;
+    public User getFollowing() {
+        return following;
     }
 
-    public void setFollowedID(User followedID) {
-        this.followedID = followedID;
+    public void setFollowing(User following) {
+        this.following = following;
     }
 
-    public User getFollowerID() {
-        return followerID;
+    public User getFollower() {
+        return follower;
     }
 
-    public void setFollowerID(User followerID) {
-        this.followerID = followerID;
+    public void setFollower(User follower) {
+        this.follower = follower;
     }
 
     public int getId() {

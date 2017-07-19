@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
@@ -17,47 +19,50 @@ public class Tweet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "TWEET_ID")
-    private int tweet_id;
-    @Column(name = "USER_ID")
-    private int user_id;
+    private Long tweetId;
+//    @Column(name = "USER_ID")
+//    private int user_id;
     @Column(name = "TWEET_BODY")
-    private String tweet_content;
-    @Column(name = "TWEET_DATETIME")
-    private LocalDateTime tweet_datetime;
+    private String tweetContent;
+//    @Column(name = "TWEET_DATETIME")
+//    private LocalDateTime tweetDatetime;
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User creator;
 
     public Tweet() {
 
     }
 
-    public int getUser_id() {
-        return user_id;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 
-    public String getTweet_content() {
-        return tweet_content;
+    public String getTweetContent() {
+        return tweetContent;
     }
 
-    public void setTweet_content(String tweet_content) {
-        this.tweet_content = tweet_content;
+    public void setTweetContent(String tweetContent) {
+        this.tweetContent = tweetContent;
     }
 
-    public LocalDateTime getTweet_datetime() {
-        return tweet_datetime;
+//    public LocalDateTime getTweetDatetime() {
+//        return tweetDatetime;
+//    }
+//
+//    public void setTweetDatetime(LocalDateTime tweetDatetime) {
+//        this.tweetDatetime = tweetDatetime;
+//    }
+
+    public Long getTweetId() {
+        return tweetId;
     }
 
-    public void setTweet_datetime(LocalDateTime tweet_datetime) {
-        this.tweet_datetime = tweet_datetime;
-    }
-
-    public int getTweet_id() {
-        return tweet_id;
-    }
-
-    public void setTweet_id(int tweet_id) {
-        this.tweet_id = tweet_id;
+    public void setTweetId(Long tweetId) {
+        this.tweetId = tweetId;
     }
 }
