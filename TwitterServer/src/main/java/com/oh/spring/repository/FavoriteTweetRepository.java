@@ -6,7 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * @author cho.oh
+ */
 @Repository
 public interface FavoriteTweetRepository extends JpaRepository<FavoriteTweet, Long>{
     List<FavoriteTweet> findFavoriteTweetsByUser_UserIdOrderByTweetDesc(Integer userId);
+
+//    List<FavoriteTweet> findFavoriteTweetsByUser_UserIdOrderBOrderByTweetId(Integer userId);
 }

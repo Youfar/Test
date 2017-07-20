@@ -1,13 +1,13 @@
 /**
- * Created by cho.oh on 西暦17/07/18.
+ * Created by cho.oh on 西暦17/07/20.
  */
 import React, { Component } from 'react';
 
-export default class SignUpSuccess extends Component {
+export default class ProfileTest extends Component {
     render() {
         return (
             <div>
-                <h1>Sign Up Success</h1>
+                <h1>direct Success</h1>
             </div>
         )
     }

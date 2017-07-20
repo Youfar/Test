@@ -15,7 +15,7 @@ class Login extends Component {
     };
 
     render() {
-        let email, password;
+        let username, password;
 
         const { dispatch, serverMsg, loginFlg } = this.props;
         return (
@@ -24,13 +24,13 @@ class Login extends Component {
                     <div>
                         <form onSubmit={e => {
                             e.preventDefault();
-                            dispatch(login(email.value, password.value));
+                            dispatch(login(username.value, password.value));
 
                         }}>
                             <div className="form-group">
                                 <label>ユーザアカウント名</label>
                                 <input type="text" ref={node => {
-                                    email = node;
+                                    username = node;
                                 }} required aria-required="true" className="form-control"/>
                                 <label>パスワード</label>
                                 <input type="password" ref={node => {

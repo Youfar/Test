@@ -1,23 +1,21 @@
 /**
- * Created by cho.oh on 西暦17/07/18.
+ * Created by cho.oh on 西暦17/07/20.
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { deleteTweet } from '../actions/TweetAction'
 import classnames from 'classnames'
+import {Link} from "react-router";
 
 export default class Tweet extends Component {
     static propTypes = {
-        dispatch: PropTypes.func,
-        tweetId: PropTypes.number.isRequired,
-        token: PropTypes.string,
-        tweetContent: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired,
         // deleteTweet: PropTypes.func.isRequired,
         // favoriteTweet: PropTypes.func.isRequired
     }
 
     render() {
-        const { token, dispatch, tweetContent, tweetId, favoriteTweet } = this.props
+        const { username, userId, token, dispatch, tweetContent, tweetId, favoriteTweet } = this.props
 
         // let element
         //     element = (
@@ -33,12 +31,9 @@ export default class Tweet extends Component {
 
         let element;
         element = (
-            <div>
-                <label>
-                    {tweetContent}
-                </label>
-                <button onClick={() => dispatch(deleteTweet(token, tweetId))}>delete</button>
-            </div>
+            <Link to={"/profile/" + userId}>
+                {username}
+            </Link>
         )
 
         return (

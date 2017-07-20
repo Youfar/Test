@@ -1,5 +1,5 @@
 /**
- * Created by youfar on 2017/07/17.
+ * Created by cho.oh on 西暦17/07/18.
  */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -21,10 +21,10 @@ class SignUp extends Component {
                 <form onSubmit={e => {
                     e.preventDefault();
                     {/*if (password.value !== confirmedPassword.value) {*/}
-                        {/*password.value = '';*/}
-                        {/*confirmedPassword.value = '';*/}
-                        {/*dispatch(passwordNotMatch());*/}
-                        {/*return;*/}
+                    {/*password.value = '';*/}
+                    {/*confirmedPassword.value = '';*/}
+                    {/*dispatch(passwordNotMatch());*/}
+                    {/*return;*/}
                     {/*}*/}
                     dispatch(signUp(username.value, email.value, password.value));
                     username.value = '';
@@ -47,7 +47,7 @@ class SignUp extends Component {
                         }} required aria-required="true" className="form-control"/>
                         {/*<label>パスワード確認</label>*/}
                         {/*<input type="password" placeholder="パスワード確認" minLength="8" ref={node => {*/}
-                            {/*confirmedPassword = node*/}
+                        {/*confirmedPassword = node*/}
                         {/*}} required aria-required="true" className="form-control"/>*/}
                     </div>
                     <div>

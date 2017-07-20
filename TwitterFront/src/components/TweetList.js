@@ -1,33 +1,32 @@
 /**
- * Created by youfar on 2017/07/17.
+ * Created by cho.oh on 西暦17/07/18.
  */
-import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types'
-import Tweet from './Tweet'
-import { getTweets } from '../actions/TweetAction';
+import React, { Component } from 'react';
+import Tweet from '../components/Tweet';
 
-export default class TweetList extends Component {
+import { connect } from 'react-redux';
+import { getTweets, deleteTweet, addFavoriteTweet, deleteFavoriteTweet } from '../actions/TweetAction';
+import {dispatch} from "redux";
+import PropTypes from 'prop-types'
+
+class TweetList extends Component {
 
     static propTypes = {
         dispatch: PropTypes.func,
+        myUserName: PropTypes.string.isRequired,
         tweets: PropTypes.array.isRequired,
-        // deleteTweet: PropTypes.func.isRequired,
-        // favoriteTweet: PropTypes.func.isRequired
-    }
-
-    componentWillMount() {
-        dispatch(getTweets(userId))
+        token: PropTypes.string,
+        // onClickGetTweets: (token: string) => void
     }
 
     render() {
-        const { tweets, actions } = this.props;
+        const { dispatch, myUserName, tweets, token } = this.props
 
         return (
             <section className="main">
                 <ul className="tweet-list">
                     {tweets.map(tweet =>
-                        <Tweet key={tweet.id} tweet={tweet} {...actions} />
+                        <Tweet key={tweet.tweetId} myUserName={myUserName} dispatch={dispatch} token={token}{...tweet} />
                     )}
                 </ul>
             </section>
@@ -37,8 +36,9 @@ export default class TweetList extends Component {
 
 function mapStateToTweetList(state) {
     return {
-        myUserAccount: state.authReducer.userId,
-        tweets: state.tweetReducer.tweets
+        myUserName: state.tokenReducer.username,
+        tweets: state.tweetReducer.tweets,
+        token: state.tokenReducer.token
     }
 }
 

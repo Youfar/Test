@@ -40,12 +40,13 @@ public class TweetRestController {
     @Autowired
     private FavoriteTweetRepository favoriteTweetRepository;
 
-//    @GetMapping("/list")
-//    @ResponseBody
-//    public ResponseEntity<List<Tweet>> listTweets() {
-//        List<Tweet> tweets = tweetService.findAll();
-//        return new ResponseEntity<List<Tweet>>(tweets, HttpStatus.OK);
-//    }
+
+    @GetMapping("/list")
+    @ResponseBody
+    public ResponseEntity<List<Tweet>> listTweets() {
+        List<Tweet> tweets = tweetService.findAll();
+        return new ResponseEntity<List<Tweet>>(tweets, HttpStatus.OK);
+    }
 
     @PostMapping("/tweet")
     public Tweet receiveTweet(@AuthenticationPrincipal LoginUser loginUser, @RequestParam("tweetContent") String tweet) {
@@ -96,6 +97,7 @@ public class TweetRestController {
     public List<FavoriteTweet> getFavoriteTweet(@AuthenticationPrincipal LoginUser loginUser) {
         int userId = loginUser.getLoginUserId();
         List<FavoriteTweet> favoriteTweetList = favoriteTweetRepository.findFavoriteTweetsByUser_UserIdOrderByTweetDesc(userId);
+//        List<FavoriteTweet> favoriteTweetList = favoriteTweetRepository.findFavoriteTweetsByUser_UserIdOrderBOrderByTweetId(userId);
         return favoriteTweetList;
     }
 }

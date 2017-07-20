@@ -1,23 +1,23 @@
 /**
- * Created by cho.oh on 西暦17/07/18.
+ * Created by cho.oh on 西暦17/07/20.
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { deleteTweet } from '../actions/TweetAction'
 import classnames from 'classnames'
 
-export default class Tweet extends Component {
+export default class FavoriteTweet extends Component {
     static propTypes = {
         dispatch: PropTypes.func,
-        tweetId: PropTypes.number.isRequired,
-        token: PropTypes.string,
-        tweetContent: PropTypes.string.isRequired,
+        // tweetId: PropTypes.number.isRequired,
+        // token: PropTypes.string,
+        tweet: PropTypes.object.isRequired,
         // deleteTweet: PropTypes.func.isRequired,
         // favoriteTweet: PropTypes.func.isRequired
     }
 
     render() {
-        const { token, dispatch, tweetContent, tweetId, favoriteTweet } = this.props
+        const { token, dispatch, tweet, tweetId, favoriteTweet } = this.props
 
         // let element
         //     element = (
@@ -35,7 +35,7 @@ export default class Tweet extends Component {
         element = (
             <div>
                 <label>
-                    {tweetContent}
+                    {tweet.tweetContent}
                 </label>
                 <button onClick={() => dispatch(deleteTweet(token, tweetId))}>delete</button>
             </div>

@@ -1,7 +1,17 @@
 package com.oh.spring.entity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+/**
+ * @author cho.oh
+ */
 @Entity
 @Table(name="FAVORITE_TWEET")
 public class FavoriteTweet {
@@ -15,6 +25,28 @@ public class FavoriteTweet {
     @ManyToOne
     @JoinColumn(name = "TWEET_ID")
     private Tweet tweet;
+
+//    @Column(name = "USER_ID")
+//    private Integer userId;
+//
+//    @Column(name = "TWEET_ID")
+//    private Long tweetId;
+
+//    public Integer getUserId() {
+//        return userId;
+//    }
+//
+//    public void setUserId(Integer userId) {
+//        this.userId = userId;
+//    }
+//
+//    public Long getTweetId() {
+//        return tweetId;
+//    }
+//
+//    public void setTweetId(Long tweetId) {
+//        this.tweetId = tweetId;
+//    }
 
     public Long getFavoriteTweetId() {
         return favoriteTweetId;
