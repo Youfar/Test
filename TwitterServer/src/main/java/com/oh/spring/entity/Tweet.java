@@ -24,8 +24,8 @@ public class Tweet {
 //    private int user_id;
     @Column(name = "TWEET_BODY")
     private String tweetContent;
-//    @Column(name = "TWEET_DATETIME")
-//    private LocalDateTime tweetDatetime;
+    @Column(name = "TWEET_DATETIME")
+    private LocalDateTime tweetDatetime;
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private User creator;
@@ -50,13 +50,13 @@ public class Tweet {
         this.tweetContent = tweetContent;
     }
 
-//    public LocalDateTime getTweetDatetime() {
-//        return tweetDatetime;
-//    }
-//
-//    public void setTweetDatetime(LocalDateTime tweetDatetime) {
-//        this.tweetDatetime = tweetDatetime;
-//    }
+    public LocalDateTime getTweetDatetime() {
+        return tweetDatetime;
+    }
+
+    public void setTweetDatetime(LocalDateTime tweetDatetime) {
+        this.tweetDatetime = tweetDatetime;
+    }
 
     public Long getTweetId() {
         return tweetId;

@@ -61,6 +61,7 @@ public class TweetRestController {
         Tweet tweetEntity = new Tweet();
         tweetEntity.setTweetContent(tweet);
         tweetEntity.setCreator(user);
+        tweetEntity.setTweetDatetime(LocalDateTime.now());
         tweetRepository.save(tweetEntity);
         return tweetEntity;
     }
@@ -73,7 +74,7 @@ public class TweetRestController {
         if (targetTweet == null) {
             throw new NotFoundException("You are not owner of the tweet");
         }
-        tweetRepository.removeByCreator_UserIdAndAndTweetId(userId, tweetId);
+        tweetRepository.removeByCreator_UserIdAndTweetId(userId, tweetId);
         return "SUCCESS";
     }
 
@@ -99,5 +100,27 @@ public class TweetRestController {
         List<FavoriteTweet> favoriteTweetList = favoriteTweetRepository.findFavoriteTweetsByUser_UserIdOrderByTweetDesc(userId);
 //        List<FavoriteTweet> favoriteTweetList = favoriteTweetRepository.findFavoriteTweetsByUser_UserIdOrderBOrderByTweetId(userId);
         return favoriteTweetList;
+    }
+
+    @PostMapping("/addFavoriteTweet")
+    public String addFavoriteTweet(@AuthenticationPrincipal LoginUser loginUser, @RequestParam("tweetId") long tweetId) {
+        int userId = loginUser.getLoginUserId();
+        FavoriteTweet favoriteTweetEntity = new FavoriteTweet();
+        favoriteTweetEntity.setUserId(userId);
+        favoriteTweetEntity.setTweetId(tweetId);
+        favoriteTweetRepository.save(favoriteTweetEntity);
+        return "SUCCESS";
+    }
+
+    @PostMapping("/deleteFavoriteTweet")
+    @Transactional
+    public String deleteFavoriteTweet(@AuthenticationPrincipal LoginUser loginUser, @RequestParam("tweetId") long tweetId) throws NotFoundException{
+        int userId = loginUser.getLoginUserId();
+        FavoriteTweet targetTweet = favoriteTweetRepository.findFavoriteTweetByUserIdAndTweetId(userId, tweetId);
+        if (targetTweet == null) {
+            throw new NotFoundException("ERROR");
+        }
+        favoriteTweetRepository.removeFavoriteTweetByUserIdAndTweetId(userId, tweetId);
+        return "SUCCESS";
     }
 }

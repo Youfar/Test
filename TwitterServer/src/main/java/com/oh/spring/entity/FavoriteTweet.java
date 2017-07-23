@@ -20,33 +20,33 @@ public class FavoriteTweet {
     @Column(name = "FAVORITE_TWEET_ID")
     private Long favoriteTweetId;
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USER_ID", insertable = false, updatable = false)
     private User user;
     @ManyToOne
-    @JoinColumn(name = "TWEET_ID")
+    @JoinColumn(name = "TWEET_ID", insertable = false, updatable = false)
     private Tweet tweet;
 
-//    @Column(name = "USER_ID")
-//    private Integer userId;
-//
-//    @Column(name = "TWEET_ID")
-//    private Long tweetId;
+    @Column(name = "USER_ID")
+    private Integer userId;
 
-//    public Integer getUserId() {
-//        return userId;
-//    }
-//
-//    public void setUserId(Integer userId) {
-//        this.userId = userId;
-//    }
-//
-//    public Long getTweetId() {
-//        return tweetId;
-//    }
-//
-//    public void setTweetId(Long tweetId) {
-//        this.tweetId = tweetId;
-//    }
+    @Column(name = "TWEET_ID")
+    private Long tweetId;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Long getTweetId() {
+        return tweetId;
+    }
+
+    public void setTweetId(Long tweetId) {
+        this.tweetId = tweetId;
+    }
 
     public Long getFavoriteTweetId() {
         return favoriteTweetId;
