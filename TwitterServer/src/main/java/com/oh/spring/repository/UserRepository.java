@@ -14,9 +14,10 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Serializable>{
 //    User findById(Integer id);
-    User findByUserId(Integer userId);
     User findByUsername(String username);
     User findByEmail(String email);
     List<User> findAllByOrderByUserIdDesc();
+    List<User> findUsersByUserIdInOrderByUserIdDesc(List<Integer> userId);
+    User findByUserId(Integer userId);
 //    Page<User> findAll(Pageable pageable);
 }

@@ -14,7 +14,9 @@ import java.util.List;
 public interface FollowingRepository extends JpaRepository<Following, Serializable>{
 //    List<Following> findAll();
 //    //get following list of userid
+    List<Following> findAllByFollowing_UserIdOrderByFollowerDesc(Integer userId);
 ////    List<Following> findAllByFollowedIDOrderById(Integer followedID);
 //    //get follower list of userid
 //    List<Following> findAllByFollowerIDOrderById(Integer followerID);
+    List<Following> findAllByFollower_UserIdOrderByFollowingDesc(Integer userId);
 }

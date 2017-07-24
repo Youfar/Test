@@ -1,9 +1,11 @@
 package com.oh.spring.controller;
 
 import com.oh.spring.entity.FavoriteTweet;
+import com.oh.spring.entity.Following;
 import com.oh.spring.entity.Tweet;
 import com.oh.spring.entity.User;
 import com.oh.spring.repository.FavoriteTweetRepository;
+import com.oh.spring.repository.FollowingRepository;
 import com.oh.spring.repository.TweetRepository;
 import com.oh.spring.repository.UserRepository;
 import com.oh.spring.security.LoginUser;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author cho.oh
@@ -39,6 +42,8 @@ public class TweetRestController {
     private UserRepository userRepository;
     @Autowired
     private FavoriteTweetRepository favoriteTweetRepository;
+    @Autowired
+    private FollowingRepository followingRepository;
 
 
     @GetMapping("/list")
@@ -74,23 +79,24 @@ public class TweetRestController {
         if (targetTweet == null) {
             throw new NotFoundException("You are not owner of the tweet");
         }
-        tweetRepository.removeByCreator_UserIdAndTweetId(userId, tweetId);
+        tweetRepository.removeByCreator_UserIdAndAndTweetId(userId, tweetId);
         return "SUCCESS";
     }
 
-//    @RequestMapping("/tweet")
-//    public Tweet receiveTweet(@RequestParam("content") String tweet) {
-//        Tweet tweetEntity = new Tweet();
-//        tweetEntity.setTweetContent(tweet);
-//        tweetEntity.setTweetDatetime(LocalDateTime.now());
-//        tweetService.create(tweetEntity);
-//        return tweetEntity;
+//    @GetMapping("/getTweet")
+//    public List<Tweet> getTweet(@AuthenticationPrincipal LoginUser loginUser) {
+//        int userId = loginUser.getLoginUserId();
+//        List<Tweet> tweetList = tweetRepository.findByCreator_UserIdOrderByTweetIdDesc(userId);
+//        return tweetList;
 //    }
-
     @GetMapping("/getTweet")
     public List<Tweet> getTweet(@AuthenticationPrincipal LoginUser loginUser) {
         int userId = loginUser.getLoginUserId();
-        List<Tweet> tweetList = tweetRepository.findByCreator_UserIdOrderByTweetIdDesc(userId);
+        List<Following> followingList = followingRepository.findAllByFollower_UserIdOrderByFollowingDesc(userId);
+        List<Integer> targetUserIdList = followingList.stream().map(following -> following.getFollowing().getUserId()).collect(Collectors.toList());
+        targetUserIdList.add(userId);
+//        List<Tweet> tweetList = tweetRepository.findByCreator_UserIdOrderByTweetIdDesc(userId);
+        List<Tweet> tweetList = tweetRepository.findTweetsByCreator_UserIdInOrderByTweetIdDesc(targetUserIdList);
         return tweetList;
     }
 

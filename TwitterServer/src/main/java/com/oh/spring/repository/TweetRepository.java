@@ -14,8 +14,8 @@ import java.util.List;
 public interface TweetRepository extends JpaRepository<Tweet, Serializable>{
 //    List<Tweet> findTweetsByUser_idOrderByTweet_idDesc (Integer userId);
     List<Tweet> findByCreator_UserIdOrderByTweetIdDesc (Integer userId);
-
-    void removeByCreator_UserIdAndTweetId(Integer userId, Long tweetId);
+    List<Tweet> findTweetsByCreator_UserIdInOrderByTweetIdDesc(List<Integer> userId);
+    void removeByCreator_UserIdAndAndTweetId(Integer userId, Long tweetId);
     Tweet findTweetByCreator_UserIdAndTweetId(Integer userId, Long tweetId);
 
 }

@@ -14,5 +14,6 @@ public interface FavoriteTweetRepository extends JpaRepository<FavoriteTweet, Lo
     List<FavoriteTweet> findFavoriteTweetsByUser_UserIdOrderByTweetDesc(Integer userId);
     FavoriteTweet findFavoriteTweetByUserIdAndTweetId(Integer userId, Long tweetId);
     void removeFavoriteTweetByUserIdAndTweetId(Integer userId, Long tweetId);
+
 //    List<FavoriteTweet> findFavoriteTweetsByUser_UserIdOrderBOrderByTweetId(Integer userId);
 }

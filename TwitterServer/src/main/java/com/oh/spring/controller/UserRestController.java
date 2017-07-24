@@ -8,17 +8,26 @@ import com.oh.spring.repository.UserRepository;
 import com.oh.spring.security.LoginUser;
 import com.oh.spring.service.TweetService;
 import com.oh.spring.service.UserService;
+import com.sun.corba.se.spi.servicecontext.UEInfoServiceContext;
 import javafx.scene.text.FontWeight;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author cho.oh
@@ -38,6 +47,47 @@ public class UserRestController {
         List<User> userList = userRepository.findAllByOrderByUserIdDesc();
         return userList;
     }
+
+    @GetMapping("/getFollowings")
+    public List<User> getFollowings(@AuthenticationPrincipal LoginUser loginUser) {
+        int userId = loginUser.getLoginUserId();
+        List<Following> followingList = followingRepository.findAllByFollower_UserIdOrderByFollowingDesc(userId);
+        List<Integer> targetUserIdList = followingList.stream().map(following -> following.getFollowing().getUserId()).collect(Collectors.toList());
+        List<User> followingUserList = userRepository.findUsersByUserIdInOrderByUserIdDesc(targetUserIdList);
+        return followingUserList;
+    }
+
+    @GetMapping("/getFollowers")
+    public List<User> getFollowers(@AuthenticationPrincipal LoginUser loginUser) {
+        int userId = loginUser.getLoginUserId();
+        List<Following> followerList = followingRepository.findAllByFollowing_UserIdOrderByFollowerDesc(userId);
+        List<Integer> targetUserIdList = followerList.stream().map(follower -> follower.getFollower().getUserId()).collect(Collectors.toList());
+        List<User> followerUserList = userRepository.findUsersByUserIdInOrderByUserIdDesc(targetUserIdList);
+        return followerUserList;
+    }
+
+    @GetMapping("/getFollowingsByUserId/{userId}")
+    public List<User> getFollowingsByUserId(@PathVariable Integer userId, @AuthenticationPrincipal LoginUser loginUser) throws NotFoundException {
+        User targetUser = userRepository.findByUserId(userId);
+        if (targetUser == null) {
+            throw new NotFoundException("Target User Not Found");
+        }
+        List<Following> followingList = followingRepository.findAllByFollower_UserIdOrderByFollowingDesc(userId);
+        List<Integer> targetUserIdList = followingList.stream().map(following -> following.getFollowing().getUserId()).collect(Collectors.toList());
+        List<User> followingUserList = userRepository.findUsersByUserIdInOrderByUserIdDesc(targetUserIdList);
+        return followingUserList;
+    }
+
+//    @GetMapping("/getFollowers")
+//    public List<User> getFollowers(@AuthenticationPrincipal LoginUser loginUser) {
+//        int userId = loginUser.getLoginUserId();
+//        List<Following> followerList = followingRepository.findAllByFollowing_UserIdOrderByFollowerDesc(userId);
+//        List<Integer> targetUserIdList = followerList.stream().map(follower -> follower.getFollower().getUserId()).collect(Collectors.toList());
+//        List<User> followerUserList = userRepository.findUsersByUserIdInOrderByUserIdDesc(targetUserIdList);
+//        return followerUserList;
+//    }
+
+
 
 //    @GetMapping("/list")
 //    @ResponseBody
@@ -85,7 +135,6 @@ public class UserRestController {
 //        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
 //    }
 
-//    @PostMapping("/addFollowing")
     @RequestMapping(value = "/addFollowing", method = RequestMethod.POST)
     public Object addFollowing(@RequestParam("targetUserId") Integer targetUserId, @AuthenticationPrincipal LoginUser loginUser) throws NotFoundException {
         User targetUser = userRepository.findByUserId(targetUserId);
@@ -110,4 +159,5 @@ public class UserRestController {
         return result;
 
     }
+
 }
