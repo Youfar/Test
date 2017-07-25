@@ -18,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,12 +47,12 @@ public class TweetRestController {
     private FollowingRepository followingRepository;
 
 
-    @GetMapping("/list")
-    @ResponseBody
-    public ResponseEntity<List<Tweet>> listTweets() {
-        List<Tweet> tweets = tweetService.findAll();
-        return new ResponseEntity<List<Tweet>>(tweets, HttpStatus.OK);
-    }
+//    @GetMapping("/list")
+//    @ResponseBody
+//    public ResponseEntity<List<Tweet>> listTweets() {
+//        List<Tweet> tweets = tweetService.findAll();
+//        return new ResponseEntity<List<Tweet>>(tweets, HttpStatus.OK);
+//    }
 
     @PostMapping("/tweet")
     public Tweet receiveTweet(@AuthenticationPrincipal LoginUser loginUser, @RequestParam("tweetContent") String tweet) {
@@ -79,6 +80,7 @@ public class TweetRestController {
         if (targetTweet == null) {
             throw new NotFoundException("You are not owner of the tweet");
         }
+        //TODO favorite里面也同时删除
         tweetRepository.removeByCreator_UserIdAndAndTweetId(userId, tweetId);
         return "SUCCESS";
     }
@@ -128,5 +130,15 @@ public class TweetRestController {
         }
         favoriteTweetRepository.removeFavoriteTweetByUserIdAndTweetId(userId, tweetId);
         return "SUCCESS";
+    }
+
+    @GetMapping("/getTweetsByUserId/{userId}")
+    public List<Tweet> getTweetsByUserId(@PathVariable Integer userId) throws NotFoundException {
+        User targetUser = userRepository.findByUserId(userId);
+        if (targetUser == null) {
+            throw new NotFoundException("Target User Not Found");
+        }
+        List<Tweet> tweetList = tweetRepository.findByCreator_UserIdOrderByTweetIdDesc(userId);
+        return tweetList;
     }
 }
